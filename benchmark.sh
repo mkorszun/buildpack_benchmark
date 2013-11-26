@@ -1,9 +1,23 @@
 #!/usr/bin/env bash
 
+$(which md5 > /dev/null)
+
+if [ $? -eq 0 ]; then
+    MD5_CMD="md5";
+else
+    $(which md5sum > /dev/null)
+    if [ $/ -eq 0]; then
+        MD5_CMD="md5sum"
+    else
+        echo "$PREFIX 'md5 | md5sum' required"
+        exit 1;
+    fi
+fi
+
 PREFIX="[BENCHMARK]"
 ERROR="[ERROR]"
 BUILDPACK_URL=$1
-APP_NAME="benchmark$(date | md5 | fold -w20 | head -n1)"
+APP_NAME="benchmark$(date | $MD5_CMD | fold -w20 | head -n1)"
 LOG_FILE="./output.log"
 
 echo "$PREFIX Creating test application $APP_NAME"
@@ -26,4 +40,3 @@ else
     cctrlapp $APP_NAME delete -f
     echo "$PREFIX Build time: $(grep 'Total time' $LOG_FILE | awk '{print $6}')"
 fi
-
