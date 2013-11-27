@@ -6,7 +6,7 @@ if [ $? -eq 0 ]; then
     MD5_CMD="md5";
 else
     $(which md5sum > /dev/null)
-    if [ $/ -eq 0]; then
+    if [ $? -eq 0 ]; then
         MD5_CMD="md5sum"
     else
         echo "$PREFIX 'md5 | md5sum' required"
@@ -36,7 +36,9 @@ if [ $? -ne 0 ]; then
     cctrlapp $APP_NAME delete -f
     exit 1;
 else
+    echo "$PREFIX Build time: $(grep 'Total time' $LOG_FILE | awk '{print $6}')"
+    echo "Cleaning up..."
     cctrlapp $APP_NAME/default undeploy -f
     cctrlapp $APP_NAME delete -f
-    echo "$PREFIX Build time: $(grep 'Total time' $LOG_FILE | awk '{print $6}')"
+    echo "Done!"
 fi
