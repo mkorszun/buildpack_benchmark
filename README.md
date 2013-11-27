@@ -12,6 +12,6 @@ buildpack_benchmark
 Change to test application directory and run:
 
 ~~~bash
-$ sh /PATH/TO/buildpack_benchmark/benchmark.sh BUILDPACK_URL
+$ bash /PATH/TO/buildpack_benchmark/benchmark.sh BUILDPACK_URL
 ~~~
 
